@@ -30,8 +30,8 @@ def parse_sleep(row):
     date = date - timedelta(1)
   sleep['date'] = date.isoformat()
   sleep['weekday'] = date.isoweekday() # Mon: 1 - Sun: 7
-  sleep['start_hour'] = start.time()
-  sleep['end_hour'] = end.time()
+  sleep['start_hour'] = start.time().strftime('%I:%M %p')
+  sleep['end_hour'] = end.time().strftime('%I:%M %p')
   sleep['length'] = (end - start).total_seconds() / 3600
   sleep['cycles'] = int(row[11])
   sleep['deep'] = float(row[12])
@@ -49,7 +49,7 @@ def filter_events(keys, values):
     e = event.split('-')
     if e[0] not in events:
       events[e[0]] = []
-    events[e[0]].append(datetime.fromtimestamp(int(e[1])/1000))    
+    events[e[0]].append(datetime.fromtimestamp(int(e[1])/1000))
   return events
 
 if __name__ == "__main__":
