@@ -19,7 +19,13 @@ def read(filename):
         data_sleep.append(parse_sleep(row))
         event_value = tuple(row[14:])
         data_events.append(filter_events(event_key, event_value))
-    import pdb; pdb.set_trace()
+    return data_sleep
+
+def export(data, filename):
+  with open(filename, 'wb') as csvfile:
+    w = csv.DictWriter(csvfile,['date','weekday','start_hour','end_hour','length','cycles','deep'])
+    w.writeheader()
+    w.writerows(data)
 
 def parse_sleep(row):
   sleep = {}
@@ -53,4 +59,5 @@ def filter_events(keys, values):
   return events
 
 if __name__ == "__main__":
-    read('sleep-export.csv')
+  data = read('sleep-export.csv')
+  export(data, 'sleep-data.csv')
